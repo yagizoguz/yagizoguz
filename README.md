@@ -45,4 +45,4 @@ These projects are at different stages of development. Some are functional proto
 
 Building practical AI systems that connect software intelligence with real devices, personal data, and the physical world.
 
-I’m interested in opportunities involving applied AI, software engineering, mobile development, and multidisciplinary R&D.-->
+I’m interested in opportunities involving applied AI, software engineering, mobile development, and multidisciplinary R&D.
