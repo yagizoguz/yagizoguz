@@ -1,80 +1,72 @@
-Yağız Oğuz
+# Yağız Oğuz
 
-Independent Software Developer · AI Agents · iOS Engineering · Intelligent Automation
+**Independent software developer — native Apple platforms, AI agents, and device-level interaction.**  
+Istanbul, Türkiye
 
-I’m an independent developer and Industrial Engineering student based in Istanbul, Türkiye, with an academic background in Electrical and Electronics Engineering.
+I build experimental software where agents, accessibility APIs, and real devices meet. Most of my work is in Swift: iPhone automation, semantic remote interfaces, and local-first personal data systems. I care about the difference between a plausible result and an observed one, and I document which is which.
 
-I build experimental software where AI agents, native applications, accessibility engineering, and real-world device interaction meet. My broader engineering interests include electronics, radio systems, robotics, and hardware–software integration.
+## Selected work
 
-Selected Projects
+### PhoneAgent — iPhone automation from observed interfaces
 
-PhoneAgent — AI-Powered iPhone Automation
+[Native iOS agent stack →](projects/phoneagent.md)
 
-An experimental system exploring how AI agents can understand and interact with real iOS applications.
+A native iOS agent stack built around screen perception, Accessibility semantics, and HID input. It observes the screen with Vision and ScreenCaptureKit, grounds actions against recognized elements, and can drive real touches through a hostless RSD/HID path running on the phone itself.
 
-• Native iOS components using Swift and SwiftUI
-• LLM-driven task planning and hybrid visual/semantic interface understanding
-• Physical-device validation of iOS Accessibility (AX) hierarchies, labels, identifiers, traits, and element bounding frames
-• Research and development around on-device pairing and HID-based interaction
-• 2,200+ passing checks in a private-beta test suite
+- Device-verified on iPhone 17 Pro Max / iOS 27: full-display capture and OCR with pixel-checked coordinates; tap, swipe, and Home over CoreDevice HID; a closed observe → resolve → tap → verify loop with no Mac at runtime (September 2026).
+- On-device iOS 27 pairing verified end-to-end in November 2026, including promotion of a staged pairing record only after a harmless HID tap was observed.
+- **2,645 tests, 2 skipped, 0 failures** in the main simulator suite (November 2026).
+- Private beta. General autonomous AX-to-HID behavior is still experimental. CoreDevice text entry is withheld after a device-verified failure. Pairing coverage is one device.
 
-Status: Active experimental development / private beta. Fully Mac-free setup and end-to-end autonomous AX-to-HID interaction remain development goals, not publicly validated production features.
+### MorphDesk — semantic remote desktop
 
-MorphDesk — Semantic Remote Interaction
+[Swift semantic remote interaction →](projects/morphdesk.md)
 
-A Mac-to-iPhone prototype exploring remote interaction through structured accessibility data rather than relying exclusively on streamed screen pixels.
+A Swift system that turns a real macOS Accessibility tree into a normalized, Codable model, generates a deterministic native iPhone interface, and executes validated AX operations over an authenticated TLS connection. Standard mode has no AI or cloud dependency.
 
-• macOS Accessibility (AX) interface inspection
-• Semantic representation of application elements and interactions
-• Cross-device interaction architecture
-• Initial prototype validation: 15/15 passing checks
+- Physical iPhone 18 Pro Max: paired over LAN, rendered and edited a real TextEdit document, applied the change, and verified it by independent AX read-back; disconnect and reconnect passed.
+- Real effects independently checked in TextEdit (save), Finder (navigation and selection), Safari (form edit and link navigation), and Calculator (sidebar) — **15/15 real-AX tests, 0 failures**.
+- Optional Adaptive mode accepts a user-configured OpenAI-compatible endpoint. The integration is implemented; real-provider layout generation has not yet been demonstrated.
+- Working prototype, bounded semantic MVP. Shared-key TLS-PSK trust, no per-device identity; Tailscale routing is untested.
 
-Status: Experimental prototype.
+### LifeRecorder — local-first personal evidence
 
-LifeRecorder — Personal Intelligence Infrastructure
+[Local-first iOS telemetry →](projects/liferecorder.md)
 
-A local-first iOS project exploring persistent, user-controlled personal context.
+An iOS recorder that captures HealthKit samples, motion activity, location visits, system context, and Shortcuts events into a canonical, append-only SQLite store with first-class provenance. No account, backend, analytics, or cloud path.
 
-• Event-driven records and append-only SQLite persistence
-• Timeline reconstruction, replay, and correction tracking
-• Exploration of privacy-conscious contextual intelligence and backups
+- **103 tests** for M0 and **236 tests** for the Google Health / Fitbit Air (API v4) ingestion layer; 0 failures.
+- Measured on the simulator: 25,000 events inserted in ~0.34 s; a 500-event latest query in ~3.6 ms; a one-day window in ~9 ms.
+- M2 audio branch: continuous AAC chunks with explicit gap records, charging-time classification, and on-device Turkish transcription. Development-only and off by default.
+- Experimental. Live Google Health acceptance is not complete; real-world recording and transcription quality remain separate validation work.
 
-Status: Experimental development.
+## Other engineering
 
-Other Experiments
+- **YEAR** — local media search using Whisper transcription and SQLite FTS5.
+- **CLOSET** — AI-assisted styling and computer vision experiments.
+- **TapWar** — interactive web application and backend services.
+- **Fitbit BLE research** — Bluetooth Low Energy protocol and device analysis.
+- **FRC Team 6232, Florya Bisons** — software and electronics development.
+- **Radio and hardware** — 1420 MHz hydrogen-line observations with RTL-SDR, amateur radio and ISS SSTV/telemetry, custom antennas, RF experiments, and biomedical EMG prototypes.
 
-• YEAR — Local media search using Whisper transcription and SQLite FTS5
-• CLOSET — AI-assisted personal styling and computer vision
-• TapWar — Interactive web application and backend services
-• Fitbit BLE Research — Bluetooth Low Energy protocol and device analysis
+## Technical focus
 
-These projects are at different stages of development. Private projects are not presented as publicly released source code.
+| Area | Tools and technologies |
+| --- | --- |
+| Languages | Swift, Python, C# |
+| Apple platforms | SwiftUI, Accessibility (AX), ScreenCaptureKit, Vision, Core ML, HealthKit, Core Motion, CoreBluetooth |
+| Data | SQLite, FTS5, FastAPI, REST |
+| AI | LLM agents, multimodal planning, Whisper, speech processing, computer vision |
+| Systems and hardware | HID, RSD, BLE, RTL-SDR, RF, embedded electronics, robotics |
 
-Technologies & Areas of Focus
+## How I work
 
-|Area            |Tools and technologies                                  |
-|----------------|--------------------------------------------------------|
-|Languages       |Swift, Python, C#                                       |
-|Mobile & desktop|SwiftUI, iOS/macOS Accessibility APIs, Core ML          |
-|Backend & data  |FastAPI, REST APIs, SQLite                              |
-|AI              |LLM agents, Whisper, speech processing, computer vision |
-|Hardware        |BLE, RTL-SDR, RF systems, embedded electronics, robotics|
+- **Separate what is implemented, what is device-verified, and what is still research.** Test counts and acceptance runs are reported with their scope and date.
+- **Prefer local-first and explicit boundaries.** Network access, model calls, and device control are opt-in, bounded, and fail closed.
+- **Measure the platform instead of assuming it.** HID surfaces, AX capabilities, background modes, and protocol behavior are treated as things to verify.
 
-Electronics, Robotics & Space
+## Source and contact
 
-My engineering interests began with hands-on hardware experiments:
+The source for these projects is private. The dossiers above document architecture, verification scope, and limitations; I can walk through implementation details on request.
 
-• Software and electronics development with FRC Team 6232 — Florya Bisons
-• Radio astronomy experiments observing the 1420 MHz hydrogen line using RTL-SDR
-• Amateur radio and satellite communications, including ISS SSTV and telemetry
-• Custom antenna construction, RF experiments, and biomedical electronics / EMG prototypes
-
-Public Work
-
-• Quantum Visualizer — Public fork of a Bitcoin-developer quantum-readiness dashboard with structured API documentation
-
-Currently Exploring
-
-Software that understands interfaces, works across devices, and helps people accomplish tasks beyond the chat window.
-
-I’m interested in exchanging ideas with engineers, researchers, founders, and teams working on applied AI, iOS engineering, accessibility, and human–computer interaction.
+I am interested in conversations about agent execution semantics, accessibility systems, native Apple engineering, and local-first data. The best way to reach me is through [GitHub](https://github.com/yagizoguz).
