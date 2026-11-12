@@ -2,8 +2,7 @@
 
 **A semantic remote desktop: macOS Accessibility → native iPhone interface.**
 
-Status: working prototype (V1) · macOS 27 / iOS 27 · Swift 6  
-Source: private · Last verified: November 2026
+Status: working prototype (V1) · macOS 27 / iOS 27 · Swift 6 · Source: private · Last verified: November 2026
 
 ## Overview
 

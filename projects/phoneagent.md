@@ -2,8 +2,7 @@
 
 **Native iPhone automation across perception, accessibility, and HID input.**
 
-Status: private beta and active research · iOS 27 · Swift 6  
-Source: private · Last verified: November 2026
+Status: private beta and active research · iOS 27 · Swift 6 · Source: private · Last verified: November 2026
 
 ## Overview
 
