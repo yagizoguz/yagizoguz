@@ -1,16 +1,20 @@
 # MorphDesk
 
-**A semantic remote desktop: macOS Accessibility → native iPhone interface.**
+**An experimental semantic remote desktop prototype: macOS Accessibility → native iPhone interface.**
 
-Status: working prototype (V1) · macOS 27 / iOS 27 · Swift 6 · Source: private · Last verified: November 2026
+Status: experimental prototype under development · not a product · source private · last verified November 2026
+
+**Publication status: private, not a release candidate, and not being prepared for public release.**
 
 ## Overview
 
-MorphDesk explores a different approach to remote desktop. Instead of streaming pixels and replaying taps at coordinates, it reads a real macOS Accessibility (AX) tree, normalizes it into a typed Codable model, and generates a native iPhone interface from the controls the host actually exposes.
+MorphDesk is a research prototype that explores a different approach to remote desktop. Instead of streaming pixels and replaying taps at coordinates, it reads a real macOS Accessibility (AX) tree, normalizes it into a typed Codable model, and generates a native iPhone interface from the controls the host actually exposes.
 
 The phone does not receive a video stream. It receives a structured application model — roles, labels, values, state, capabilities, and parent relationships — and sends back validated, capability-bound operations. The Mac host executes them through its own AX APIs and the phone receives an independent read-back.
 
 Standard mode is deterministic and local: no AI, no cloud, no provider. An optional Adaptive mode can ask a user-configured OpenAI-compatible model to regroup the same bounded model into a more usable mobile layout, but the model never receives raw values or document text, and it cannot author operations.
+
+**MorphDesk is not production-ready, is not generally available, and does not claim universal remote-desktop compatibility.** The verified results below come from one bounded validation environment and a small set of applications.
 
 ## At a glance
 
@@ -21,7 +25,7 @@ Standard mode is deterministic and local: no AI, no cloud, no provider. An optio
 | Transport | Network.framework, TLS 1.2 with a pre-shared key |
 | Layout | Deterministic role-to-control mapping; optional model-assisted regrouping |
 | Execution | Host-issued capabilities, confirmation, freshness tokens, independent AX read-back |
-| Status | Bounded semantic MVP, not universal application conversion |
+| Status | Experimental prototype under development; no production-readiness or general-availability claim |
 | Source | Private |
 
 ## Architecture
@@ -57,6 +61,54 @@ The important boundary is at the bottom: the phone can request an operation, but
 | iOS client | Native renderer, editor drafts, confirmation flow, reconnect and application switching |
 | Adaptive planner | Optional model-assisted regrouping over a sanitized, bounded summary; strict local schema validation and fallback |
 
+## Capability status
+
+The four categories below are intentionally separate. A passing test does not turn a prototype capability into a product feature.
+
+### Implemented and verified
+
+| Capability | Evidence |
+| --- | --- |
+| macOS AX snapshot and normalization | Real exports from TextEdit, Finder, Safari, and Calculator |
+| Deterministic iPhone layout | Native controls rendered from the real exported model |
+| Authenticated transport | Real TLS sockets, including wrong-key rejection |
+| Host-side execution with freshness checks | Real AX setters/presses; stale target rejected after an independent desktop mutation |
+| Independent read-back | `verified` only when a separate AX read observed the intended effect |
+| Physical device flow | Pair → render → edit → apply → AX read-back → disconnect/reconnect on a physical iPhone |
+| Supported application interactions | TextEdit save, Finder navigation/selection, Safari form edit/link navigation, Calculator sidebar |
+| Real-AX test suite | 15 tests passed, 0 failures, no skips |
+
+### Implemented and tested, not fully verified
+
+| Capability | Status |
+| --- | --- |
+| Adaptive layout planner, strict schema validation, fallback | Implemented and covered by offline/provider-mock tests; **no real-provider inference was performed**, so there are no real AI-generated layouts to show |
+| Native macOS GUI host | Builds; the validated host was the terminal-launched CLI with existing Accessibility authorization. A fresh GUI permission flow was not exercised |
+| ScreenCaptureKit still-image provider | Compiles, but permission-granted capture, pixel transport, rendering, and visual analysis were not exercised |
+| Tailscale addressing | Uses the same connection path, but remote tailnet routing and ACLs were not tested |
+
+### Incomplete
+
+| Area | Current limitation |
+| --- | --- |
+| Identity and revocation | One shared 256-bit pairing key; no per-device identities or individual revocation |
+| Background / locked-phone operation | Not validated |
+| Long-running behavior | No soak testing; reconnection and session replacement are bounded |
+| Secure fields | Not forwarded |
+| Clipboard and file transfer | Not implemented |
+| Universal application coverage | Custom canvases, games, unexposed controls, and some large AX trees are unsupported or truncated |
+| Real-provider Adaptive validation | Implemented but not demonstrated end-to-end |
+
+### Planned / not implemented
+
+| Area | Status |
+| --- | --- |
+| QR or Bonjour onboarding | Planned; not implemented |
+| Pixel/visual fallback path | Planned; not implemented |
+| Multi-application AI task composition | Planned; not implemented |
+
+These entries are future possibilities, not commitments or a product roadmap. No release date, support plan, or compatibility program exists for this prototype.
+
 ## Engineering challenges
 
 ### 1. Accessibility is a capability surface, not a UI toolkit
@@ -84,15 +136,15 @@ During validation, Safari's Apply button returned `dispatchedUnverified`; a sepa
 
 A whole-snapshot staleness rule rejected edits when unrelated Finder decorations moved. The final design uses host-issued per-target state tokens: unrelated revisions are allowed, but a genuinely changed target invalidates its capability. The real-Mac integration test exercises this with an actual document mutation, not a synthetic flag.
 
-### 5. Security boundaries are part of the product
+### 5. Security boundaries are part of the prototype
 
 Pairing is a shared 256-bit key over TLS 1.2 PSK. It is not per-device identity, and PSK does not provide forward secrecy. Every mutation or activation requires explicit confirmation. The pairing window itself is never exported, and the service is not designed to be exposed to the public Internet; Tailscale is the recommended remote path, though tailnet routing and ACLs were not tested in the validation run.
 
 The optional Adaptive mode adds a separate boundary: only a sanitized summary is sent to the provider — no values, document text, window titles, static labels, geometry, or session tokens. The model may only reference host-issued capability identifiers. If validation fails, the client falls back to the deterministic layout.
 
-## Verified capabilities
+## Validation record
 
-| Area | Result | Scope |
+| Test or build | Result | Scope |
 | --- | --- | --- |
 | Real-AX suite | 15 tests passed, 0 failures, no skips; includes real TextEdit and Safari synchronization | macOS 27 + iPhone simulator |
 | Physical iPhone flow | Pair → render real editor → edit → apply → independent AX read-back → disconnect/reconnect | iPhone 18 Pro Max, iOS 27.0.1 |
@@ -100,25 +152,19 @@ The optional Adaptive mode adds a separate boundary: only a sanitized summary is
 | Finder | Real folder navigation and selection verified through parent `AXSelectedChildren` | Host protocol client |
 | Safari | Focus + set verified; Apply and link navigation confirmed by separate AX captures | Host protocol client |
 | Calculator | Sidebar activation and restore verified from real hierarchy changes | Host protocol client |
-| V1 test suite | 43 discovered, 41 executed, 2 opt-in skipped, 0 failures | Final V1 sources |
+| Current prototype test suite | 43 discovered, 41 executed, 2 opt-in skipped, 0 failures | Current prototype sources |
 | Builds | macOS host and iOS simulator builds succeeded; signed physical install succeeded | Xcode 27 |
-
-## Implemented, not verified
-
-- **Adaptive mode with a real provider.** The planner, HTTP client, schema validation, consent flow, Keychain storage, cancellation, and fallback are implemented. No real-provider inference was performed, so there are no AI-generated layout examples to show.
-- **ScreenCaptureKit still images.** The provider compiles, but permission-granted capture, pixel transport, rendering, and visual analysis were not exercised. The normal path remains semantic.
-- **Tailscale routing.** The same connection path is used, but remote tailnet routing and ACLs were not tested.
-- **Native macOS GUI host.** The GUI builds; the exercised host was the terminal-launched CLI with existing Accessibility authorization. The GUI requires its own normal user grant.
-- **Per-device identity and revocation.** All paired phones share one trust key; rotating it revokes all clients.
-- **Background/locked-phone operation, long-running soak tests, secure-field forwarding, clipboard/file transfer, and multi-application task composition.** None is claimed.
 
 ## Explicit non-claims
 
-- MorphDesk is not a universal converter for arbitrary Mac applications.
-- It does not support custom-drawn canvases, games, unexposed controls, or secure fields.
+- MorphDesk is **not production-ready** and is **not generally available**.
+- It is not a VNC/RDP replacement or a universal remote desktop.
+- It does not guarantee compatibility with arbitrary macOS applications, custom-drawn canvases, games, unexposed controls, or secure fields.
 - It does not claim that a press or setter succeeded without an independent read-back.
-- It is not an Internet-hardened remote-control service.
+- It is not an Internet-hardened remote-control service and has no security certification.
 - It does not claim real AI-driven interface redesign until a real provider run is completed and the resulting controls operate a real application with independently checked effects.
+- It has no support commitment, SLA, distribution plan, or compatibility program as a prototype.
+- The verified results cover one Mac, one physical iPhone, and the listed applications; they are not a general field-readiness claim.
 
 ## Technology stack
 
@@ -130,4 +176,4 @@ No third-party runtime service is required. Adaptive mode is optional and uses a
 
 The validation record is dated 4 November 2026 and covers a MacBook Pro M1 (8 GB), macOS 27.0, Xcode 27.0, and a physical iPhone 18 Pro Max on iOS 27.0.1. Raw logs and screenshots contain real desktop and device context, so they are kept private; no screenshots or demos are published. This document summarizes the outcomes and the failed or unverified cases.
 
-The project is a bounded semantic MVP. Its value is in the boundary: a real Accessibility tree on one side, a native mobile interface on the other, and an execution path that reports what it actually observed.
+MorphDesk is an experimental prototype, not a product. Its value is in the boundary: a real Accessibility tree on one side, a native mobile interface on the other, and an execution path that reports what it actually observed. Publication and release readiness are separate future decisions.

@@ -2,7 +2,7 @@
 
 **Local-first personal evidence infrastructure for iPhone.**
 
-Status: experimental · M0 complete, M1 implemented and fixture-tested, M2 audio in development · Source: private · Last verified: November 2026
+Status: experimental · not a public release · M0 complete, M1 implemented and fixture-tested, M2 audio in development · Source: private · Last verified: November 2026
 
 ## Overview
 

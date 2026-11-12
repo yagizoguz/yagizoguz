@@ -10,7 +10,7 @@ I build experimental software where agents, accessibility APIs, and real devices
 
 [Native iOS agent stack →](projects/phoneagent.md)
 
-A native iOS agent stack built around screen perception, Accessibility semantics, and HID input. It observes the screen with Vision and ScreenCaptureKit, grounds actions against recognized elements, and can drive real touches through a hostless RSD/HID path running on the phone itself.
+A native iOS agent stack built around screen perception, Accessibility semantics, and HID input. It observes the screen with Vision and ScreenCaptureKit, grounds actions against recognized elements, and can drive real taps through a hostless RSD/HID path running on the phone itself.
 
 - Device-verified on iPhone 17 Pro Max / iOS 27: full-display capture and OCR with pixel-checked coordinates; tap, swipe, and Home over CoreDevice HID; a closed observe → resolve → tap → verify loop with no Mac at runtime (September 2026).
 - On-device iOS 27 pairing verified end-to-end in November 2026, including promotion of a staged pairing record only after a harmless HID tap was observed.
@@ -21,12 +21,12 @@ A native iOS agent stack built around screen perception, Accessibility semantics
 
 [Swift semantic remote interaction →](projects/morphdesk.md)
 
-A Swift system that turns a real macOS Accessibility tree into a normalized, Codable model, generates a deterministic native iPhone interface, and executes validated AX operations over an authenticated TLS connection. Standard mode has no AI or cloud dependency.
+An experimental Swift prototype, under development. It turns a real macOS Accessibility tree into a normalized, Codable model, generates a deterministic native iPhone interface, and executes validated AX operations over an authenticated TLS connection. Standard mode has no AI or cloud dependency.
 
 - Physical iPhone 18 Pro Max: paired over LAN, rendered and edited a real TextEdit document, applied the change, and verified it by independent AX read-back; disconnect and reconnect passed.
 - Real effects independently checked in TextEdit (save), Finder (navigation and selection), Safari (form edit and link navigation), and Calculator (sidebar) — **15/15 real-AX tests, 0 failures**.
 - Optional Adaptive mode accepts a user-configured OpenAI-compatible endpoint. The integration is implemented; real-provider layout generation has not yet been demonstrated.
-- Working prototype, bounded semantic MVP. Shared-key TLS-PSK trust, no per-device identity; Tailscale routing is untested.
+- **Experimental prototype under development — not a product, not generally available, and not a universal remote desktop.** No public release is being prepared. Verified results are limited to one Mac, one iPhone, and the listed applications. Shared-key TLS-PSK trust, no per-device identity; Tailscale routing is untested. Implemented, tested, incomplete, and planned capabilities are separated in the dossier.
 
 ### LifeRecorder — local-first personal evidence
 
@@ -34,7 +34,7 @@ A Swift system that turns a real macOS Accessibility tree into a normalized, Cod
 
 An iOS recorder that captures HealthKit samples, motion activity, location visits, system context, and Shortcuts events into a canonical, append-only SQLite store with first-class provenance. No account, backend, analytics, or cloud path.
 
-- **103 tests** for M0 and **236 tests** for the Google Health / Fitbit Air (API v4) ingestion layer; 0 failures.
+- **103 tests** for M0 and **236 tests** in the M1 suite covering Google Health / Fitbit Air (API v4) ingestion; 0 failures.
 - Measured on the simulator: 25,000 events inserted in ~0.34 s; a 500-event latest query in ~3.6 ms; a one-day window in ~9 ms.
 - M2 audio branch: continuous AAC chunks with explicit gap records, charging-time classification, and on-device Turkish transcription. Development-only and off by default.
 - Experimental. Live Google Health acceptance is not complete; real-world recording and transcription quality remain separate validation work.
@@ -66,6 +66,6 @@ An iOS recorder that captures HealthKit samples, motion activity, location visit
 
 ## Source and contact
 
-The source for these projects is private. The dossiers above document architecture, verification scope, and limitations; I can walk through implementation details on request.
+The source for these projects is private. None is a public release or a release candidate, and no source publication is being prepared. The dossiers above document architecture, verification scope, and limitations; I can walk through implementation details on request.
 
 I am interested in conversations about agent execution semantics, accessibility systems, native Apple engineering, and local-first data. The best way to reach me is through [GitHub](https://github.com/yagizoguz).
