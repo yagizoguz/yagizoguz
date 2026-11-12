@@ -128,6 +128,6 @@ No third-party runtime service is required. Adaptive mode is optional and uses a
 
 ## Verification notes
 
-The validation record is dated 4 November 2026 and covers a MacBook Pro M1 (8 GB), macOS 27.0, Xcode 27.0, and a physical iPhone 18 Pro Max on iOS 27.0.1. Raw logs and screenshots contain real desktop and device context, so they are kept private; this document summarizes the outcomes and the failed or unverified cases.
+The validation record is dated 4 November 2026 and covers a MacBook Pro M1 (8 GB), macOS 27.0, Xcode 27.0, and a physical iPhone 18 Pro Max on iOS 27.0.1. Raw logs and screenshots contain real desktop and device context, so they are kept private; no screenshots or demos are published. This document summarizes the outcomes and the failed or unverified cases.
 
 The project is a bounded semantic MVP. Its value is in the boundary: a real Accessibility tree on one side, a native mobile interface on the other, and an execution path that reports what it actually observed.

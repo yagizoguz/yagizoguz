@@ -127,4 +127,4 @@ Swift 6 · SwiftUI · SQLite3 · HealthKit · Core Motion · Core Location · AV
 
 ## Verification notes
 
-Test counts and performance figures come from local runs on the simulator and, where stated, a physical iPhone 17 Pro Max. Raw databases, audio, health values, and device identifiers are private and are not included in this document. The M1 live-API gap and the M2 audio limitations are intentional parts of the record, not footnotes.
+Test counts and performance figures come from local runs on the simulator and, where stated, a physical iPhone 17 Pro Max. Raw databases, audio, health values, and device identifiers are private and are not included in this document. No screenshots or demos are published. The M1 live-API gap and the M2 audio limitations are intentional parts of the record, not footnotes.

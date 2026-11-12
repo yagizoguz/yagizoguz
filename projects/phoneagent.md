@@ -184,6 +184,6 @@ Third-party notes: the hostless pairing implementation uses the MIT-licensed `id
 
 ## Verification notes
 
-Device-verified claims come from local acceptance records with before/after screenshots, pixel measurements, and JSONL event logs. Those raw records are private because they contain device and personal context. Test counts are from local runs; there is no public CI result for this project.
+Device-verified claims come from local acceptance records with before/after screenshots, pixel measurements, and JSONL event logs. Those raw records are private because they contain device and personal context. No screenshots or demos are published. Test counts are from local runs; there is no public CI result for this project.
 
 The project is intentionally documented at this level of detail because the interesting engineering is in the boundaries: what the OS exposes, what the transport accepts, and what the device actually does.
