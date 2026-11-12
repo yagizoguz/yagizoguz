@@ -68,4 +68,4 @@ An iOS recorder that captures HealthKit samples, motion activity, location visit
 
 The source for these projects is private. None is a public release or a release candidate, and no source publication is being prepared. The dossiers above document architecture, verification scope, and limitations; I can walk through implementation details on request.
 
-I am interested in conversations about agent execution semantics, accessibility systems, native Apple engineering, and local-first data. The best way to reach me is through [GitHub](https://github.com/yagizoguz).
+I am interested in conversations about agent execution semantics, accessibility systems, native Apple engineering, and local-first data. The best way to reach me is through [LinkedIn](https://www.linkedin.com/in/yagizoguz) or [GitHub](https://github.com/yagizoguz).
