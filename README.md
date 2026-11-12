@@ -2,7 +2,7 @@
 
 **Independent software developer — native Apple platforms, AI agents, and device-level interaction.** · Istanbul, Türkiye
 
-I build experimental software where agents, accessibility APIs, and real devices meet. Most of my work is in Swift: iPhone automation, semantic remote interfaces, and local-first personal data systems. I care about the difference between a plausible result and an observed one, and I document which is which.
+I build experimental software where agents, accessibility APIs, and real devices meet. Most of my work is in Swift: iPhone automation, semantic remote interfaces, and local-first personal data systems. My background is in electrical/electronics engineering and industrial engineering. I care about the difference between a plausible result and an observed one, and I document which is which.
 
 ## Selected work
 
